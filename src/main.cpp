@@ -42,7 +42,7 @@ struct sFRACTAL
 
 ComplexZ oZmid(-0.6,0.4);
 ComplexZ oZxy(2,2);
-float zoom = 1.1;
+float zoom = 0.9;
 
 // Forward declaration
 bool
@@ -123,17 +123,17 @@ void fractal_clicked(GtkWidget *widget, GdkEventButton *event, gpointer data)
 			gdk_window_get_size(pWindow, &iW, &iH);
 
 
-			double step = 1.0/400.0;
-			double xOrigo = oZmid.rRe()- 1;
-			double yOrigo = oZmid.rIm()- 1;
+			double step = 1.0/zoom/400.0;
+			double xOrigo = oZmid.rRe()- 1/zoom;
+			double yOrigo = oZmid.rIm()- 1/zoom;
 
-			realX = iX - (jX + ((800 - iW)/2));
+			realX = (iX - (jX + ((800 - iW)/2)));
 			if(realX < 0){
 				realX = 0;
 			} else if (realX > 800){
 				realX = 800;
 			}
-			realY = iY - (jY + ((800 - iH)/2));
+			realY = (iY - (jY + ((800 - iH)/2)));
 			if(realY < 0){
 				realY = 0;
 			} else if (realY > 800){
@@ -149,7 +149,7 @@ void fractal_clicked(GtkWidget *widget, GdkEventButton *event, gpointer data)
 			sFractal.pGDKvisual2 = NULL;
 			sFractal.pImage2 = NULL;
 
-			zoom +=.2;
+			zoom *=2;
 			printf("zoom:%fl x:%fl y:%fl\n", zoom, oZmid.rRe(), oZmid.rIm());
 			bCalc_Fractal(oZmid,oZxy,zoom);
 		} else if (event->button == 3) {
@@ -162,7 +162,7 @@ void fractal_clicked(GtkWidget *widget, GdkEventButton *event, gpointer data)
 			sFractal.pGDKvisual2 = NULL;
 			sFractal.pImage2 = NULL;
 
-			zoom /=1.2;
+			zoom /=2;
 			bCalc_Fractal(oZmid,oZxy,zoom);
 		}
 	}
